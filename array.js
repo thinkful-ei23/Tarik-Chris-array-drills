@@ -25,5 +25,20 @@ class Array() {
     this._capacity = size;
   }
 
+  pop() {
+    if (this.length === 0) {
+      throw new Error('Index Error');
+    }
+    const value = memory.get(this.ptr + this.length - 1);
+    this.length--;
+    return value;
+  }
+  
+  get(index) {
+    if (index < 0 || index >= this.length) {
+      throw new Error('Index Error');
+    }
+    return memory.get(this.ptr + index);
+  }
 
 }
