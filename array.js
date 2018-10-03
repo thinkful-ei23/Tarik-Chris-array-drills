@@ -1,5 +1,7 @@
-const memory = require("./memory");
-const memory = new memoryClass(); // DONT FOREGET THIS
+'use strict';
+
+const memoryClass = require('./memory');
+const memory = new memoryClass(); // DONT FORGET THIS
 
 class Array {
   constructor() {
@@ -10,6 +12,7 @@ class Array {
 
   push(value) {
     if (this.length >= this._capacity) {
+      console.log((this.length + 1) *  Array.SIZE_RATIO);
       this._resize((this.length + 1) * Array.SIZE_RATIO);
     }
     memory.set(this.ptr + this.length, value);
@@ -19,16 +22,17 @@ class Array {
     const oldPtr = this.ptr;
     this.ptr = memory.allocate(size);
     if (this.ptr === null) {
-      throw new Error("Out of memory");
+      throw new Error('Out of memory');
     }
     memory.copy(this.ptr, oldPtr, this.length);
     memory.free(oldPtr);
     this._capacity = size;
+    console.log(size);
   }
 
   pop() {
     if (this.length === 0) {
-      throw new Error("Index Error");
+      throw new Error('Index Error');
     }
     const value = memory.get(this.ptr + this.length - 1);
     this.length--;
@@ -37,8 +41,11 @@ class Array {
 
   get(index) {
     if (index < 0 || index >= this.length) {
-      throw new Error("Index Error");
+      throw new Error('Index Error');
     }
     return memory.get(this.ptr + index);
   }
 }
+Array.SIZE_RATIO = 3;
+
+module.exports = Array;
