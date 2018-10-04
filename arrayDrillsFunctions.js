@@ -54,11 +54,25 @@ function mergeArray(arr1, arr2, arr3 = []) {
   }
 
   if (arr1.length === 0 && arr2.length > 0) {
-    return [ ...arr3, ...arr2];
+    arr2.forEach((num2) => {
+      arr3.forEach((num3, index3) => {
+        if (num2 < num3) {
+          arr3.splice(index3, 0, num2);
+        }
+      });
+    });
+    return arr3;
   }
 
   if (arr2.length === 0 && arr1.length > 0) {
-    return [...arr3, ...arr1];
+    arr1.forEach((num1) => {
+      arr3.forEach((num3, index3) => {
+        if (num1 < num3) {
+          arr3.splice(index3, 0, num1);
+        }
+      });
+    });
+    return arr3;
   }
 
   if (arr1[0] < arr2[0]) {
@@ -71,7 +85,13 @@ function mergeArray(arr1, arr2, arr3 = []) {
     arr3.push(arr1[0]);
   }
 
-  return mergeArray(arr1.slice(0), arr2.slice(0));
+  if (arr1[0] === arr2[0]) {
+    arr3.push(arr1[0]);
+    arr3.push(arr2[0]);
+  }
+
+  console.log(arr3);
+  return mergeArray(arr1.slice(1), arr2.slice(1), arr3);
 }
 
 console.log(mergeArray([1, 3, 6, 8, 11], [2, 3, 5, 8, 9, 10]));
